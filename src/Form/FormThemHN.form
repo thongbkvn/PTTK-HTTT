@@ -88,13 +88,13 @@
                                           </Group>
                                           <Component id="cbxnhao" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="txthoten" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                                      <Component id="txthotenkn" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel21" min="-2" pref="81" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="cbxdt2" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <Component id="cbxdantockn" min="-2" pref="82" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -107,12 +107,12 @@
                                           <Component id="cbxquanhe" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="txtchuho" min="-2" pref="125" max="-2" attributes="0"/>
+                                          <Component id="txthotench" min="-2" pref="125" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel5" min="-2" pref="73" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="cbxdantoc" min="-2" pref="77" max="-2" attributes="0"/>
+                                          <Component id="cbxdantocch" min="-2" pref="77" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="jLabel9" max="32767" attributes="0"/>
                                       </Group>
@@ -203,7 +203,7 @@
                       <Component id="jLabel1" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtchuho" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txthotench" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtmahn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtthon" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -217,7 +217,7 @@
                       <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbxkhuvuc" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxdantoc" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbxdantocch" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbxphanloai" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -250,7 +250,7 @@
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txthoten" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txthotenkn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbxquanhe" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -262,7 +262,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbxdt2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbxdantockn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbxnghenghiep" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -346,7 +346,7 @@
             <Property name="text" type="java.lang.String" value="T&#xea;n ch&#x1ee7; h&#x1ed9;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtchuho">
+        <Component class="javax.swing.JTextField" name="txthotench">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -397,7 +397,7 @@
             <Property name="text" type="java.lang.String" value="D&#xe2;n T&#x1ed9;c"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbxdantoc">
+        <Component class="javax.swing.JComboBox" name="cbxdantocch">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
@@ -497,7 +497,7 @@
             <Property name="text" type="java.lang.String" value="H&#x1ecd; t&#xea;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txthoten">
+        <Component class="javax.swing.JTextField" name="txthotenkn">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel18">
           <Properties>
@@ -536,7 +536,7 @@
             <Property name="text" type="java.lang.String" value="D&#xe2;n t&#x1ed9;c"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbxdt2">
+        <Component class="javax.swing.JComboBox" name="cbxdantockn">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
