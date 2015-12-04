@@ -60,7 +60,7 @@ public class DKCanBo {
     public static boolean suaHoNgheo(HoNgheo hoNgheo, int idHoNgheo) {
         try {
             String sql = "UPDATE dbo.tbHoNgheo SET " 
-                    + "TehCH=N'"+hoNgheo.getTenCH()+"', XOM = N'" + hoNgheo.getXom() + "',IDXa = " + hoNgheo.getIdXa() + ", IDDanToc = " + hoNgheo.getIdDanToc() 
+                    + "TenCH=N'"+hoNgheo.getTenCH()+"', XOM = N'" + hoNgheo.getXom() + "',IDXa = " + hoNgheo.getIdXa() + ", IDDanToc = " + hoNgheo.getIdDanToc() 
                     + ",IDPhanLoai = " + hoNgheo.getIdPhanLoai() + ", ThuNhapTB = " + hoNgheo.getThuNhapTB() + ", IDNuoc = " + hoNgheo.getIdNuoc() 
                     + ", IDNguyenNhan = " + hoNgheo.getIdNguyenNhan() + ", IDNhaO = " + hoNgheo.getIdNhaO() + ", TrangThai = " + (hoNgheo.isTrangThai()?1:0) 
                     + " WHERE IDHoNgheo = " + idHoNgheo;

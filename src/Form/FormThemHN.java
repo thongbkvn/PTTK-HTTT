@@ -7,6 +7,7 @@ import Entity.HeThong;
 import Entity.DiaBan;
 import Control.DKCanBo;
 import Entity.HoNgheo;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -31,6 +32,7 @@ public final class FormThemHN extends javax.swing.JFrame {
         lbkieuthem.setText("Thêm hộ nghèo mới");
         txtnamngheo.setText("" + HeThong.namNgheo);
         loadDiaBan();
+        btchinhsua.setEnabled(false);
 
         xemDanhSachKN();
 
@@ -88,7 +90,7 @@ public final class FormThemHN extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbkhaungheo = new javax.swing.JTable();
+        tbdanhsachkn = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txthotench = new javax.swing.JTextField();
@@ -143,7 +145,7 @@ public final class FormThemHN extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tbkhaungheo.setModel(new javax.swing.table.DefaultTableModel(
+        tbdanhsachkn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -151,8 +153,12 @@ public final class FormThemHN extends javax.swing.JFrame {
 
             }
         ));
-        tbkhaungheo.setRowSelectionAllowed(true);
-        jScrollPane1.setViewportView(tbkhaungheo);
+        tbdanhsachkn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbdanhsachknMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbdanhsachkn);
 
         jLabel2.setText("Mã hộ nghèo");
 
@@ -262,8 +268,18 @@ public final class FormThemHN extends javax.swing.JFrame {
         });
 
         btchinhsua.setText("Chỉnh sửa");
+        btchinhsua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btchinhsuaActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Xóa");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Quay lại");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -280,6 +296,11 @@ public final class FormThemHN extends javax.swing.JFrame {
         });
 
         jButton6.setText("Hủy");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jLabel24.setText("000 VNĐ/Người/Tháng");
 
@@ -554,7 +575,10 @@ public final class FormThemHN extends javax.swing.JFrame {
             }
             else {
                 int idHoNgheo = Integer.parseInt(txtmahn.getText());
-                if (DKCanBo.themVaoDanhSachHN(idHoNgheo, HeThong.namNgheo)) {
+                if (!DKCanBo.themVaoDanhSachHN(idHoNgheo, HeThong.namNgheo)) {
+                    JOptionPane.showMessageDialog(this, "Hộ nghèo đã được thêm lại từ trước.", "Thất bại", 1);
+                }
+                else {
                     if (DKCanBo.suaHoNgheo(hoNgheo, idHoNgheo))
                         JOptionPane.showMessageDialog(this, "Đã thêm hộ nghèo cũ thành công", "Thành công", 1);
                     else  {
@@ -562,13 +586,10 @@ public final class FormThemHN extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Kiểm tra lại thông tin hộ nghèo", "Thất bại", 1);
                     }
                 }
-                else {
-                     JOptionPane.showMessageDialog(this, "Hộ nghèo đã được thêm lại từ trước.", "Thất bại", 1);
-                }
                 
             }
 
-        } catch (Exception ex) {
+        } catch (HeadlessException | NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Đã có lỗi xảy ra, không thể thêm hộ nghèo", "Thông báo lỗi", 2);
         }
     }//GEN-LAST:event_btthemhnActionPerformed
@@ -668,6 +689,95 @@ public final class FormThemHN extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtmahnFocusLost
 
+    private void tbdanhsachknMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbdanhsachknMouseClicked
+        // TODO add your handling code here:
+        int index = tbdanhsachkn.getSelectedRow();
+        KhauNgheo khauNgheo = listkn.get(index);
+        hienThiKhauNgheo(khauNgheo);
+        btchinhsua.setEnabled(true);
+    }//GEN-LAST:event_tbdanhsachknMouseClicked
+
+    private void btchinhsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btchinhsuaActionPerformed
+        // TODO add your handling code here:
+        if (txthotenkn.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa nhập tên khẩu nghèo");
+            return;
+        }
+        if (txtnamsinhkn.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa nhập năm sinh khẩu nghèo");
+            return;
+        }
+
+        try {
+            if (Integer.parseInt(txtnamsinhkn.getText()) < HeThong.namNgheo - 130) {
+                JOptionPane.showMessageDialog(this, "Năm sinh khẩu nghèo không hợp lệ");
+                return;
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Năm sinh phải là số");
+            txtnamsinhkn.setText("");
+            return;
+        }
+
+        KhauNgheo khauNgheo = new KhauNgheo(txthotenkn.getText(), getIDInt(cbxquanhe), (getIDInt(cbxgioitinh) == 1), getIDInt(cbxdantocch),
+                getIDInt(cbxnghenghiep), getIDInt(cbxdoituong), Integer.parseInt(txtnamsinhkn.getText()));
+        
+        int index = tbdanhsachkn.getSelectedRow();
+        listkn.set(index, khauNgheo);
+        xemDanhSachKN();
+        tbdanhsachkn.clearSelection();
+        btchinhsua.setEnabled(false);
+    }//GEN-LAST:event_btchinhsuaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int index = tbdanhsachkn.getSelectedRow();
+        listkn.remove(index);
+        xemDanhSachKN();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        xoaHienThi();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void hienThiKhauNgheo(KhauNgheo khauNgheo) {
+        txthotenkn.setText(khauNgheo.getHoTen());
+        cbxquanhe.setSelectedIndex(khauNgheo.getIdQuanHeCH() - 1);
+        cbxgioitinh.setSelectedIndex(khauNgheo.isGioiTinh()?0:1);
+        txtnamsinhkn.setText(""+khauNgheo.getNamSinh());
+        cbxdantockn.setSelectedIndex(khauNgheo.getIdDanToc()-1);
+        cbxnghenghiep.setSelectedIndex(khauNgheo.getIdNgheNghiep() - 1);
+        cbxdoituong.setSelectedIndex(khauNgheo.getIdDoiTuong() - 1);
+    }
+    
+    private void xoaHienThi() {
+        txthotenkn.setText("");
+        cbxquanhe.setSelectedIndex(0);
+        cbxgioitinh.setSelectedIndex(0);
+        txtnamsinhkn.setText("");
+        cbxdantockn.setSelectedIndex(0);
+        cbxnghenghiep.setSelectedIndex(0);
+        cbxdoituong.setSelectedIndex(0);
+        
+        txtmahn.setText("");
+        txthotench.setText("");
+        txtxom.setText("");
+        txtxa.setText("");
+        txthuyen.setText("");
+        cbxkhuvuc.setSelectedIndex(0);
+        cbxdantocch.setSelectedIndex(0);
+        txtthunhap.setText("");
+        cbxphanloai.setSelectedIndex(0);
+        cbxnhao.setSelectedIndex(0);
+        cbxnuoc.setSelectedIndex(0);
+        cbxnguyennhan.setSelectedIndex(0);
+        txtnamngheo.setText("");
+        cbDaCapThe.setSelected(false);
+
+        listkn.clear();
+        xemDanhSachKN();
+    }
     public void hienThiHoNgheo(HoNgheo hoNgheo, int idHoNgheo) {
         if (idHoNgheo != 0) {
             txtmahn.setText("" + idHoNgheo);
@@ -716,7 +826,7 @@ public final class FormThemHN extends javax.swing.JFrame {
             data.add(user);
         }
 
-        this.tbkhaungheo.setModel(new DefaultTableModel(data, cols));
+        this.tbdanhsachkn.setModel(new DefaultTableModel(data, cols));
     }
 
     /**
@@ -780,7 +890,7 @@ public final class FormThemHN extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbkieuthem;
-    private javax.swing.JTable tbkhaungheo;
+    private javax.swing.JTable tbdanhsachkn;
     private javax.swing.JTextField txthotench;
     private javax.swing.JTextField txthotenkn;
     private javax.swing.JTextField txthuyen;
