@@ -1,17 +1,18 @@
 
-package qlhongheo;
+package Entity;
 
 import java.util.ArrayList;
 
 
 public class HeThong {
-   public static int NgheoNT;
-   public static int NgheoTT;
-   public static int CanNgheoNT;
-   public static int CanNgheoTT;
-   public static int NamNgheo;
+   public static int ngheoNT;
+   public static int ngheoTT;
+   public static int canNgheoNT;
+   public static int canNgheoTT;
+   public static int namNgheo;
+   
    public static ArrayList<DanhMuc> dmDanToc = new ArrayList<>();
-   public static ArrayList<DanhMuc> dmChinhSach  = new ArrayList<>();
+   public static ArrayList<DanhMuc> dmDoiTuong  = new ArrayList<>();
    public static ArrayList<DanhMuc> dmHuyen  = new ArrayList<>();
    public static ArrayList<DanhMuc> dmXa  = new ArrayList<>();
    public static ArrayList<DanhMuc> dmKhuVuc  = new ArrayList<>();

@@ -3,20 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Main;
+package Form;
 
-import Oject.checklog;
+import Control.CheckLog;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import qlhongheo.CanBo;
+import Entity.CanBo;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 
-public class formDangNhap extends javax.swing.JFrame {
+public class FormDangNhap extends javax.swing.JFrame {
     public static ResultSet rs= null;
     public static PreparedStatement pst =null;
-    public formDangNhap() {
+    public FormDangNhap() {
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
 
     /**
@@ -42,7 +46,6 @@ public class formDangNhap extends javax.swing.JFrame {
 
         jLabel2.setText("Mật khẩu");
 
-        jtmk.setText("jPasswordField1");
         jtmk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtmkMouseClicked(evt);
@@ -54,6 +57,7 @@ public class formDangNhap extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("ĐĂNG NHẬP HỆ THỐNG QUẢN TRỊ");
 
@@ -87,7 +91,7 @@ public class formDangNhap extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jtdangnhap)
                                 .addComponent(jtmk, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,7 +110,7 @@ public class formDangNhap extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
@@ -117,12 +121,12 @@ public class formDangNhap extends javax.swing.JFrame {
         if(this.jtdangnhap.getText().length()==0 || String.valueOf(this.jtmk.getPassword()).length()==0)
            JOptionPane.showMessageDialog(null, "Ban chua nhap thong tin tai khoan hoac mat khau","thong bao",1);
         else {   
-           rs = checklog.cLog(this.jtdangnhap.getText(), String.valueOf(this.jtmk.getPassword()));
+           rs = CheckLog.cLog(this.jtdangnhap.getText(), String.valueOf(this.jtmk.getPassword()));
             try{
                 if(rs.next())
                 {       
                         CanBo userInfo = new CanBo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6));
-                        formCanBo frm = new formCanBo(userInfo);              
+                        FormCanBo frm = new FormCanBo(userInfo);              
                         this.setVisible(false);
                         frm.setVisible(true);
                 }
@@ -164,20 +168,21 @@ public class formDangNhap extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(formDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(formDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(formDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(formDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormDangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new formDangNhap().setVisible(true);
+                new FormDangNhap().setVisible(true);
             }
         });
     }

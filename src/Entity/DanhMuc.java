@@ -1,11 +1,11 @@
-package qlhongheo;
+package Entity;
 
 public class DanhMuc {
-    public int ID;
+    public int id;
     public String ten;
-    public DanhMuc(int ID, String ten)
+    public DanhMuc(int id, String ten)
     {
-        this.ID = ID;
+        this.id = id;
         this.ten = ten;
     }
     

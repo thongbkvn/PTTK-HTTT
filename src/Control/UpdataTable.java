@@ -1,6 +1,6 @@
 
 
-package Oject;
+package Control;
 
 import java.sql.*;
 import javax.swing.*;
