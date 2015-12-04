@@ -5,7 +5,7 @@
  */
 package Form;
 
-import Control.CheckLog;
+import Control.Checklog;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -121,7 +121,7 @@ public class FormDangNhap extends javax.swing.JFrame {
         if(this.jtdangnhap.getText().length()==0 || String.valueOf(this.jtmk.getPassword()).length()==0)
            JOptionPane.showMessageDialog(null, "Ban chua nhap thong tin tai khoan hoac mat khau","thong bao",1);
         else {   
-           rs = CheckLog.cLog(this.jtdangnhap.getText(), String.valueOf(this.jtmk.getPassword()));
+           rs = Checklog.cLog(this.jtdangnhap.getText(), String.valueOf(this.jtmk.getPassword()));
             try{
                 if(rs.next())
                 {       

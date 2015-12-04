@@ -5,6 +5,8 @@ import Entity.DanhMuc;
 import Entity.HeThong;
 import Entity.DiaBan;
 import Database.Connect;
+import Entity.HoNgheo;
+import Entity.KhauNgheo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,33 +20,113 @@ public class DKCanBo {
     public static Connection conn = Connect.getConnect();
     public  static PreparedStatement pst = null;
     public static ResultSet rs=null;
-     public static void themHoNgheo( String tench, String xom, String xa, String dantoc, String phanloai, String thunhap, String sonk, int namngheo, String nuocsach, String nguyennhan, boolean trangthai,String nhao )
-    {
-        String sql ="insert into dbo.tbHoNgheo (TenCH, Xom, IDXa, IDDanToc, IDPhanLoai, ThuNhapTB, SoNK, NamNgheo, IDNuoc, IDnguyenhan, TrangThai, IDNhaO) "
-               + "values (N'"+tench+"',N'"+xom+"',N'"+xa+"',N'"+dantoc+"',N'"+phanloai+"',N'"+thunhap+"',N'"+sonk+"',"+namngheo+",N'"+nuocsach+"',N'"+nguyennhan+"',"+trangthai+",N'"+nhao+"')";
+    
+    public static int themHoNgheo(HoNgheo hoNgheo) {
         try {
-            pst=conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Đã thêm hộ nghèo thành công","Thông báo",1);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Xảy ra lỗi không thể thêm hộ nghèo ","Thông báo",2);
-        }
+            String sql = "INSERT INTO dbo.tbHoNgheo(TenCH, Xom, IDXa, IDDanToc, IDPhanLoai, ThuNhapTB, IDNuoc, IDnguyenNhan, IDNhaO, TrangThai) "
+                    + "VALUES(N'"+hoNgheo.getTenCH()+"', N'" + hoNgheo.getXom() + "', " + hoNgheo.getIdXa() + ", " + hoNgheo.getIdDanToc() + "," 
+                    + hoNgheo.getIdPhanLoai() + ", " + hoNgheo.getThuNhapTB() + ", " + hoNgheo.getIdNuoc() + ", " + hoNgheo.getIdNguyenNhan() + ", "
+                    + hoNgheo.getIdNhaO() + ", " + (hoNgheo.isTrangThai()?1:0)  + ")";
+            pst = conn.prepareStatement(sql, new String[] {"IDHoNgheo"});
+            pst.executeUpdate();
             
+            rs = pst.getGeneratedKeys();
+            rs.next();
+            int idHoNgheo = rs.getInt(1);
+            
+            for (KhauNgheo khauNgheo : hoNgheo.getListKN()) {
+                themKhauNgheo(khauNgheo, idHoNgheo);
+            }
+            return idHoNgheo;
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi, không thể thêm hộ nghèo vào cơ sở dữ liệu", "Thông báo lỗi", 2);
+            return -1;
+        }
     }
      
-     public static void themKhauNgheo(int idhongheo, String hoten, int idquanhe, boolean gt, int namsinh, int dantoc, int nghenghiep, int doituong ){
-         String sql = "insert into dbo.tbKhauNgheo (IDHoNgheo, HoTen, IDQuanHeCH, GioiTinh, NamSinh, IDDanToc, IDNgheNghiep, IDDoiTuong)"
-                 + "Values("+idhongheo+", '"+hoten+"',"+ idquanhe+", '"+ gt+"', "+ namsinh+" ,"+ dantoc+", "+nghenghiep+", "+doituong+")";
-          try {
-            pst=conn.prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "Đã thêm khẩu nghèo thành công","Thông báo",1);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Xảy ra lỗi không thể thêm khẩu nghèo ","Thông báo",2);
+    public static void themKhauNgheo(KhauNgheo khauNgheo, int idHoNgheo) {
+        try {
+            String sql = "INSERT INTO dbo.tbKhauNgheo(IDHoNgheo, HoTen, IDQuanHeCH, GioiTinh, NamSinh, IDDanToc, IDNgheNghiep, IDDoiTuong) "
+                    + "VALUES (" + idHoNgheo +", N'" + khauNgheo.getHoTen() + "', " + khauNgheo.getIdQuanHeCH() + ", " + (khauNgheo.isGioiTinh()?1:0) + ", "
+                    + khauNgheo.getNamSinh() + ", " + khauNgheo.getIdDanToc() + ", " + khauNgheo.getIdNgheNghiep() + ", " + khauNgheo.getIdDoiTuong() + ")";
+            pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi, không thể thêm khẩu nghèo vào cơ sở dữ liệu", "Thông báo lỗi", 2);
         }
-     }
-     
-     public static void layThongTinHeThong()
+    }
+   
+    public static boolean suaHoNgheo(HoNgheo hoNgheo, int idHoNgheo) {
+        try {
+            String sql = "UPDATE dbo.tbHoNgheo SET " 
+                    + "TehCH=N'"+hoNgheo.getTenCH()+"', XOM = N'" + hoNgheo.getXom() + "',IDXa = " + hoNgheo.getIdXa() + ", IDDanToc = " + hoNgheo.getIdDanToc() 
+                    + ",IDPhanLoai = " + hoNgheo.getIdPhanLoai() + ", ThuNhapTB = " + hoNgheo.getThuNhapTB() + ", IDNuoc = " + hoNgheo.getIdNuoc() 
+                    + ", IDNguyenNhan = " + hoNgheo.getIdNguyenNhan() + ", IDNhaO = " + hoNgheo.getIdNhaO() + ", TrangThai = " + (hoNgheo.isTrangThai()?1:0) 
+                    + " WHERE IDHoNgheo = " + idHoNgheo;
+            pst = conn.prepareStatement(sql, new String[] {"IDHoNgheo"});
+            pst.executeUpdate();
+            
+            sql = "DELETE FROM dbo.tbKhauNgheo WHERE IDHoNgheo = " + idHoNgheo;
+            pst = conn.prepareStatement(sql, new String[] {"IDHoNgheo"});
+            pst.executeUpdate();
+            
+            for (KhauNgheo khauNgheo : hoNgheo.getListKN()) {
+                themKhauNgheo(khauNgheo, idHoNgheo);
+            }
+            return true;
+            
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    public  static boolean themVaoDanhSachHN(int idHoNgheo, int NamNgheo) {
+        try {
+            String sql = "INSERT INTO dbo.tbDanhSachHN(IDHoNgheo, NamNgheo) VALUES("+idHoNgheo + ", " + NamNgheo+")";
+            pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
+    public static void xoaKhoiDanhSachHN(int idHoNgheo, int namNgheo) {
+        try {
+            String sql = "DELETE FROM dbo.DanhSachHN WHERE IDHoNgheo = " + idHoNgheo + " AND NamNgheo = " + namNgheo;
+            pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+        } catch (Exception ex) {
+        }
+    }
+    
+    public static HoNgheo layThongTinHN(int idHoNgheo) {
+        try {
+            String sql = "SELECT TenCH, Xom, IDXa, IDDanToc, IDPhanLoai, ThuNhapTB, IDNuoc, IDnguyenNhan, TrangThai, IDNhaO "
+                    + "FROM dbo.tbHoNgheo WHERE dbo.tbHoNgheo.IDHoNgheo = " + idHoNgheo;
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            rs.next();
+            
+            HoNgheo hn;
+            
+            hn = new HoNgheo(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), (rs.getInt(9) != 0), rs.getInt(10));
+           
+            sql = "SELECT HoTen, IDQuanHeCH, GioiTinh, IDDanToc, IDNgheNghiep, IDDoiTuong, NamSinh "
+                    + "FROM dbo.tbKhauNgheo WHERE dbo.tbKhauNgheo.IDHoNgheo = " + idHoNgheo;
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                hn.getListKN().add(new KhauNgheo(rs.getString(1), rs.getInt(2), (rs.getInt(3)!=0), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7)));
+            }
+            
+            return hn;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+    
+     public static boolean layThongTinHeThong()
      {
          
          try {
@@ -127,23 +209,13 @@ public class DKCanBo {
              {
                  HeThong.dmNguyenNhan.add(new DanhMuc(rs.getInt(1), rs.getString(2)));
              }
-
+             return true;
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Xảy ra lỗi hệ thống ","Thông báo",2);
+            return false;
         }
      }
      
-     public static int layIDHoNgheoVuaThem(int maxa) {
-         String sql;
-         try {
-             Statement st = conn.createStatement();
-             sql = "SELECT MAX(dbo.tbHoNgheo.IDHoNgheo) FROM dbo.tbHoNgheo WHERE dbo.tbHoNgheo.maxa = " + maxa;
-             rs = st.executeQuery(sql);
-             return rs.getInt(1);
-         } catch (Exception ex) {
-             return 0;
-         }
-     }
+   
      
      public static DanhMuc layKhuVuc(int maxXa) {
          String sql;
@@ -156,7 +228,6 @@ public class DKCanBo {
              
              return new DanhMuc(rs.getInt(1), rs.getString(2));
          } catch (Exception ex) {
-             JOptionPane.showMessageDialog(null, "Không thể lấy thông tin khu vực của địa bàn", "Thông Báo Lỗi", 2);
              return null;
          }
          }
@@ -209,9 +280,10 @@ public class DKCanBo {
              }
              
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Không thể lấy địa bàn ","Thông báo",2);
             return null;
         }
      }
+
+    
      
 }
